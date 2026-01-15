@@ -1,9 +1,9 @@
 """
-02 - Rastgele Eylem Secen Agent
+02 - Random Action Agent
 
-Bu ornekte basit bir Random Agent implementasyonu yapacagiz.
-Agent her adimda rastgele bir eylem secer - ogrenme yapmaz.
-Bu, daha sonra gelistirecegimiz akilli agentler icin temel (baseline) olacak.
+In this example, we will implement a simple Random Agent.
+The agent selects a random action at each step - it does not learn.
+This will serve as a baseline for the smarter agents we will develop later.
 """
 
 import gymnasium as gym
@@ -11,7 +11,7 @@ import numpy as np
 
 
 class RandomAgent:
-    """Rastgele eylem secen basit bir agent."""
+    """A simple agent that selects random actions."""
 
     def __init__(self, action_space):
         """
@@ -22,36 +22,36 @@ class RandomAgent:
 
     def select_action(self, observation):
         """
-        Gozleme bakmadan rastgele eylem secer.
+        Selects a random action without looking at the observation.
 
         Args:
-            observation: Ortamdan gelen gozlem (kullanilmiyor)
+            observation: Observation from the environment (not used)
 
         Returns:
-            action: Rastgele secilmis eylem
+            action: Randomly selected action
         """
         return self.action_space.sample()
 
     def learn(self, observation, action, reward, next_observation, done):
         """
-        Random agent ogrenme yapmaz.
-        Bu metod ileride gelistirilecek agentler icin arayuz saglar.
+        Random agent does not learn.
+        This method provides an interface for agents we will develop later.
         """
         pass
 
 
 def run_episode(env, agent, render=False):
     """
-    Bir episode calistirir.
+    Runs a single episode.
 
     Args:
-        env: Gymnasium ortami
-        agent: Eylem secen agent
-        render: Gorsellestirme yapilsin mi
+        env: Gymnasium environment
+        agent: Agent that selects actions
+        render: Whether to render visualization
 
     Returns:
-        total_reward: Episode boyunca toplanan toplam odul
-        step_count: Episode'daki adim sayisi
+        total_reward: Total reward collected during the episode
+        step_count: Number of steps in the episode
     """
     observation, info = env.reset()
     total_reward = 0
@@ -59,17 +59,17 @@ def run_episode(env, agent, render=False):
     done = False
 
     while not done:
-        # Agent'tan eylem al
+        # Get action from agent
         action = agent.select_action(observation)
 
-        # Ortamda adim at
+        # Take step in environment
         next_observation, reward, terminated, truncated, info = env.step(action)
 
-        # Agent'in ogrenme fonksiyonunu cagir (Random agent icin bos)
+        # Call agent's learning function (empty for Random agent)
         done = terminated or truncated
         agent.learn(observation, action, reward, next_observation, done)
 
-        # Degiskenleri guncelle
+        # Update variables
         observation = next_observation
         total_reward += reward
         step_count += 1
@@ -79,15 +79,15 @@ def run_episode(env, agent, render=False):
 
 def evaluate_agent(env, agent, num_episodes=100):
     """
-    Agent'i birden fazla episode uzerinde degerlendirir.
+    Evaluates the agent over multiple episodes.
 
     Args:
-        env: Gymnasium ortami
-        agent: Degerlendirilecek agent
-        num_episodes: Calistirilacak episode sayisi
+        env: Gymnasium environment
+        agent: Agent to evaluate
+        num_episodes: Number of episodes to run
 
     Returns:
-        results: Her episode'un odul ve adim bilgilerini iceren dict
+        results: Dictionary containing reward and step information for each episode
     """
     rewards = []
     steps = []
@@ -99,8 +99,8 @@ def evaluate_agent(env, agent, num_episodes=100):
 
         if (episode + 1) % 20 == 0:
             print(f"Episode {episode + 1}/{num_episodes} - "
-                  f"Son odul: {total_reward:.1f}, "
-                  f"Ortalama: {np.mean(rewards):.2f}")
+                  f"Last reward: {total_reward:.1f}, "
+                  f"Average: {np.mean(rewards):.2f}")
 
     return {
         "rewards": rewards,
@@ -115,48 +115,48 @@ def evaluate_agent(env, agent, num_episodes=100):
 
 def main():
     print("=" * 60)
-    print("RANDOM AGENT DEGERLENDIRMESI")
+    print("RANDOM AGENT EVALUATION")
     print("=" * 60)
 
-    # Ortam olustur
+    # Create environment
     env = gym.make("CartPole-v1")
 
-    # Agent olustur
+    # Create agent
     agent = RandomAgent(env.action_space)
 
-    print(f"\nOrtam: CartPole-v1")
+    print(f"\nEnvironment: CartPole-v1")
     print(f"Agent: Random Agent")
-    print(f"Episode sayisi: 100")
-    print("\nDegerlendirme basladi...\n")
+    print(f"Number of episodes: 100")
+    print("\nStarting evaluation...\n")
 
-    # Agent'i degerlendir
+    # Evaluate agent
     results = evaluate_agent(env, agent, num_episodes=100)
 
-    # Sonuclari yazdir
+    # Print results
     print("\n" + "=" * 60)
-    print("SONUCLAR")
+    print("RESULTS")
     print("=" * 60)
-    print(f"Ortalama Odul: {results['mean_reward']:.2f} (+/- {results['std_reward']:.2f})")
-    print(f"Ortalama Adim: {results['mean_steps']:.2f}")
-    print(f"Max Odul: {results['max_reward']:.1f}")
-    print(f"Min Odul: {results['min_reward']:.1f}")
+    print(f"Mean Reward: {results['mean_reward']:.2f} (+/- {results['std_reward']:.2f})")
+    print(f"Mean Steps: {results['mean_steps']:.2f}")
+    print(f"Max Reward: {results['max_reward']:.1f}")
+    print(f"Min Reward: {results['min_reward']:.1f}")
 
     print("\n" + "-" * 60)
-    print("YORUM")
+    print("ANALYSIS")
     print("-" * 60)
     print("""
-Random agent CartPole'da ortalama 20-25 adim hayatta kalir.
-CartPole'da maksimum skor 500'dur (episode 500 adim sonra kesilir).
+Random agent survives approximately 20-25 steps in CartPole.
+The maximum score in CartPole is 500 (episode terminates after 500 steps).
 
-Karsilastirma icin:
-- Random Agent: ~20-25 ortalama odul
-- Basit kural tabanli: ~50-100
-- Egitilmis RL agent: ~500 (maksimum)
+For comparison:
+- Random Agent: ~20-25 average reward
+- Simple rule-based: ~50-100
+- Trained RL agent: ~500 (maximum)
 
-Ilerleyen haftalarda daha iyi agentler gelistirecegiz!
+In the following weeks, we will develop better agents!
     """)
 
-    # Ortami kapat
+    # Close environment
     env.close()
 
 

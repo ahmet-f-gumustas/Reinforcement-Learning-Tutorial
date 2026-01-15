@@ -1,192 +1,192 @@
-# Hafta 1: Pekistirmeli Ogrenmeye Giris
+# Week 1: Introduction to Reinforcement Learning
 
-Bu hafta Pekistirmeli Ogrenmenin (Reinforcement Learning - RL) temel kavramlarini ogrenecek ve Gymnasium kutuphanesi ile ilk uygulamalarimizi yapacagiz.
+This week we will learn the fundamental concepts of Reinforcement Learning (RL) and build our first applications using the Gymnasium library.
 
-## Icindekiler
+## Contents
 
-1. [Pekistirmeli Ogrenme Nedir?](#pekistirmeli-ogrenme-nedir)
-2. [Temel Kavramlar](#temel-kavramlar)
-3. [Gymnasium Kutuphanesi](#gymnasium-kutuphanesi)
-4. [Ornek Kodlar](#ornek-kodlar)
-5. [Alistirmalar](#alistirmalar)
-
----
-
-## Pekistirmeli Ogrenme Nedir?
-
-Pekistirmeli Ogrenme, bir **ajanin** (agent) bir **ortamla** (environment) etkilesim kurarak, **odul** (reward) sinyallerini maksimize edecek sekilde **davranislari** (actions) ogrenmesini saglayan bir makine ogrenmesi paradigmasidir.
-
-### Diger Ogrenme Turleri ile Karsilastirma
-
-| Tur | Veri | Geri Bildirim | Ornek |
-|-----|------|---------------|-------|
-| **Supervised Learning** | Etiketli | Dogrudan | Resim siniflandirma |
-| **Unsupervised Learning** | Etiketsiz | Yok | Kumeleme |
-| **Reinforcement Learning** | Deneyim | Odul sinyali | Oyun oynama |
-
-### Gercek Hayat Ornekleri
-
-- Satranc/Go oynayan yapay zeka (AlphaGo)
-- Otonom araclar
-- Robot kontrolu
-- Oneri sistemleri
-- Kaynak yonetimi
+1. [What is Reinforcement Learning?](#what-is-reinforcement-learning)
+2. [Core Concepts](#core-concepts)
+3. [Gymnasium Library](#gymnasium-library)
+4. [Code Examples](#code-examples)
+5. [Exercises](#exercises)
 
 ---
 
-## Temel Kavramlar
+## What is Reinforcement Learning?
 
-### 1. Agent (Ajan)
-Kararlari alan ve eylemleri gerceklestiren varlik. Ornegin: Oyun oynayan AI, robot.
+Reinforcement Learning is a machine learning paradigm where an **agent** learns to make decisions by interacting with an **environment**, aiming to maximize cumulative **rewards** through its **actions**.
 
-### 2. Environment (Ortam)
-Ajanin etkilesim kurdugu dunya. Ornegin: Oyun dunyasi, fiziksel ortam.
+### Comparison with Other Learning Types
 
-### 3. State (Durum)
-Ortamin o anki durumunu temsil eden bilgi.
+| Type | Data | Feedback | Example |
+|------|------|----------|---------|
+| **Supervised Learning** | Labeled | Direct | Image classification |
+| **Unsupervised Learning** | Unlabeled | None | Clustering |
+| **Reinforcement Learning** | Experience | Reward signal | Game playing |
 
-```
-s_t = Ortamin t anindaki durumu
-```
+### Real-World Examples
 
-### 4. Action (Eylem)
-Ajanin yapabilecegi hareketler.
+- Chess/Go playing AI (AlphaGo)
+- Autonomous vehicles
+- Robot control
+- Recommendation systems
+- Resource management
 
-```
-a_t = Ajanin t aninda sectigi eylem
-```
+---
 
-### 5. Reward (Odul)
-Ajanin bir eylemi gerceklestirdikten sonra aldigi sayisal geri bildirim.
+## Core Concepts
 
-```
-r_t = t aninda alinan odul
-```
+### 1. Agent
+The entity that makes decisions and takes actions. Examples: Game-playing AI, robot.
 
-### 6. Policy (Politika)
-Ajanin durumlara gore eylem secme stratejisi.
+### 2. Environment
+The world the agent interacts with. Examples: Game world, physical environment.
 
-```
-pi(a|s) = s durumunda a eylemini secme olasiligi
-```
-
-### 7. Value Function (Deger Fonksiyonu)
-Bir durumun veya durum-eylem ciftinin uzun vadeli degerini gosterir.
+### 3. State
+Information representing the current situation of the environment.
 
 ```
-V(s) = s durumundan baslayarak beklenen toplam odul
-Q(s,a) = s durumunda a eylemini yaparak beklenen toplam odul
+s_t = State of the environment at time t
+```
+
+### 4. Action
+The moves an agent can make.
+
+```
+a_t = Action selected by the agent at time t
+```
+
+### 5. Reward
+Numerical feedback received by the agent after taking an action.
+
+```
+r_t = Reward received at time t
+```
+
+### 6. Policy
+The agent's strategy for selecting actions based on states.
+
+```
+pi(a|s) = Probability of selecting action a in state s
+```
+
+### 7. Value Function
+Represents the long-term value of a state or state-action pair.
+
+```
+V(s) = Expected cumulative reward starting from state s
+Q(s,a) = Expected cumulative reward taking action a in state s
 ```
 
 ### 8. Episode
-Baslangic durumundan bitis durumuna kadar gecen surec.
+The sequence from initial state to terminal state.
 
 ---
 
-## RL Dongusu
+## The RL Loop
 
 ```
-+-------+     eylem (a_t)      +-----------+
-| Agent | ------------------> | Environment|
-+-------+                      +-----------+
-    ^                               |
-    |   durum (s_t+1), odul (r_t)   |
-    +-------------------------------+
++-------+      action (a_t)      +-----------+
+| Agent | --------------------> | Environment|
++-------+                        +-----------+
+    ^                                 |
+    |   state (s_t+1), reward (r_t)   |
+    +---------------------------------+
 ```
 
-Her adimda:
-1. Agent mevcut durumu (s_t) gozlemler
-2. Bir eylem (a_t) secer
-3. Ortam yeni duruma (s_t+1) gecer
-4. Agent bir odul (r_t) alir
-5. Agent bu deneyimden ogrenir
+At each step:
+1. Agent observes the current state (s_t)
+2. Selects an action (a_t)
+3. Environment transitions to new state (s_t+1)
+4. Agent receives a reward (r_t)
+5. Agent learns from this experience
 
 ---
 
-## Gymnasium Kutuphanesi
+## Gymnasium Library
 
-Gymnasium (eski adiyla OpenAI Gym), RL algoritmalarini test etmek icin standart ortamlar sunan bir Python kutuphanesidir.
+Gymnasium (formerly OpenAI Gym) is a Python library that provides standard environments for testing RL algorithms.
 
-### Kurulum
+### Installation
 
 ```bash
 pip install gymnasium
 ```
 
-### Temel Ortamlar
+### Basic Environments
 
-| Ortam | Aciklama | Zorluk |
-|-------|----------|--------|
-| CartPole-v1 | Cubugu dengede tutma | Kolay |
-| MountainCar-v0 | Arabayi tepeye cikarma | Orta |
-| LunarLander-v3 | Ay'a inis yapma | Orta |
-| Acrobot-v1 | Cubugu sallandirma | Orta |
+| Environment | Description | Difficulty |
+|-------------|-------------|------------|
+| CartPole-v1 | Balance a pole on a cart | Easy |
+| MountainCar-v0 | Drive a car up a hill | Medium |
+| LunarLander-v3 | Land on the moon | Medium |
+| Acrobot-v1 | Swing up a pendulum | Medium |
 
-### Temel API
+### Basic API
 
 ```python
 import gymnasium as gym
 
-# Ortam olusturma
+# Create environment
 env = gym.make("CartPole-v1")
 
-# Ortami sifirlama
+# Reset environment
 observation, info = env.reset()
 
-# Bir adim atma
-action = env.action_space.sample()  # Rastgele eylem
+# Take a step
+action = env.action_space.sample()  # Random action
 observation, reward, terminated, truncated, info = env.step(action)
 
-# Ortami kapatma
+# Close environment
 env.close()
 ```
 
 ---
 
-## Ornek Kodlar
+## Code Examples
 
-Bu klasorde 3 ornek kod bulunmaktadir:
+This folder contains 3 example scripts:
 
 ### 1. `01_basic_environment.py`
-Gymnasium ortaminin temel kullanimini gosterir.
+Demonstrates basic usage of Gymnasium environments.
 
 ### 2. `02_random_agent.py`
-Rastgele eylem secen basit bir ajan implementasyonu.
+Implementation of a simple agent that selects random actions.
 
 ### 3. `03_environment_exploration.py`
-Farkli ortamlari kesfetmek icin kullanilan kod.
+Code for exploring different environments.
 
 ---
 
-## Alistirmalar
+## Exercises
 
-### Alistirma 1: Ortami Tanima
-`CartPole-v1` ortamini calistirin ve su sorulari cevaplayin:
-- Observation space'in boyutu nedir?
-- Action space'te kac farkli eylem var?
-- Episode ne zaman sona eriyor?
+### Exercise 1: Understanding the Environment
+Run the `CartPole-v1` environment and answer these questions:
+- What is the dimension of the observation space?
+- How many different actions are in the action space?
+- When does an episode end?
 
-### Alistirma 2: Odul Analizi
-`MountainCar-v0` ortaminda 10 episode calistirin ve:
-- Her episode'un toplam odulunu kaydedin
-- Ortalama odul nedir?
-- Neden negatif oduller aliyoruz?
+### Exercise 2: Reward Analysis
+Run 10 episodes in `MountainCar-v0` and:
+- Record the total reward for each episode
+- What is the average reward?
+- Why are we getting negative rewards?
 
-### Alistirma 3: Ortam Karsilastirmasi
-En az 3 farkli Gymnasium ortamini deneyin ve karsilastirin:
-- Observation space turleri
-- Action space turleri
-- Odul yapilari
-
----
-
-## Sonraki Hafta
-
-Hafta 2'de **Markov Karar Surecleri (MDP)** konusunu isleyecegiz. Bu kavram tum RL algoritmalarinin matematiksel temelini olusturur.
+### Exercise 3: Environment Comparison
+Try at least 3 different Gymnasium environments and compare:
+- Observation space types
+- Action space types
+- Reward structures
 
 ---
 
-## Kaynaklar
+## Next Week
+
+In Week 2, we will cover **Markov Decision Processes (MDP)**. This concept forms the mathematical foundation of all RL algorithms.
+
+---
+
+## Resources
 
 - [Gymnasium Documentation](https://gymnasium.farama.org/)
 - [Sutton & Barto Chapter 1](http://incompleteideas.net/book/RLbook2020.pdf)

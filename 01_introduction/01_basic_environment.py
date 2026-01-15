@@ -1,8 +1,8 @@
 """
-01 - Gymnasium Ortaminin Temel Kullanimi
+01 - Basic Usage of Gymnasium Environment
 
-Bu ornekte Gymnasium kutuphanesinin temel kullanimini ogrenecegiz.
-CartPole-v1 ortamini inceleyecegiz.
+In this example, we will learn the basic usage of the Gymnasium library.
+We will explore the CartPole-v1 environment.
 """
 
 import gymnasium as gym
@@ -10,21 +10,21 @@ import gymnasium as gym
 
 def main():
     # ============================================
-    # 1. ORTAM OLUSTURMA
+    # 1. CREATING THE ENVIRONMENT
     # ============================================
     print("=" * 50)
-    print("1. ORTAM OLUSTURMA")
+    print("1. CREATING THE ENVIRONMENT")
     print("=" * 50)
 
-    # CartPole ortamini olustur
-    # render_mode="human" gorsellestirme icin (opsiyonel)
+    # Create CartPole environment
+    # render_mode="human" for visualization (optional)
     env = gym.make("CartPole-v1")
 
-    print(f"Ortam: {env.spec.id}")
-    print(f"Max episode adimi: {env.spec.max_episode_steps}")
+    print(f"Environment: {env.spec.id}")
+    print(f"Max episode steps: {env.spec.max_episode_steps}")
 
     # ============================================
-    # 2. OBSERVATION SPACE (GOZLEM UZAYI)
+    # 2. OBSERVATION SPACE
     # ============================================
     print("\n" + "=" * 50)
     print("2. OBSERVATION SPACE")
@@ -35,14 +35,14 @@ def main():
     print(f"Observation Low: {env.observation_space.low}")
     print(f"Observation High: {env.observation_space.high}")
 
-    print("\nCartPole Gozlem Degiskenleri:")
-    print("  [0] Cart Position (Araba Pozisyonu): -4.8 ile 4.8 arasi")
-    print("  [1] Cart Velocity (Araba Hizi): -inf ile inf arasi")
-    print("  [2] Pole Angle (Cubuk Acisi): ~-0.42 ile ~0.42 rad arasi")
-    print("  [3] Pole Angular Velocity (Cubuk Aci Hizi): -inf ile inf arasi")
+    print("\nCartPole Observation Variables:")
+    print("  [0] Cart Position: -4.8 to 4.8")
+    print("  [1] Cart Velocity: -inf to inf")
+    print("  [2] Pole Angle: ~-0.42 to ~0.42 rad")
+    print("  [3] Pole Angular Velocity: -inf to inf")
 
     # ============================================
-    # 3. ACTION SPACE (EYLEM UZAYI)
+    # 3. ACTION SPACE
     # ============================================
     print("\n" + "=" * 50)
     print("3. ACTION SPACE")
@@ -51,46 +51,46 @@ def main():
     print(f"Action Space: {env.action_space}")
     print(f"Action Space n: {env.action_space.n}")
 
-    print("\nCartPole Eylemleri:")
-    print("  0: Sola it")
-    print("  1: Saga it")
+    print("\nCartPole Actions:")
+    print("  0: Push left")
+    print("  1: Push right")
 
     # ============================================
-    # 4. ORTAMI SIFIRLAMA
+    # 4. RESETTING THE ENVIRONMENT
     # ============================================
     print("\n" + "=" * 50)
-    print("4. ORTAMI SIFIRLAMA")
+    print("4. RESETTING THE ENVIRONMENT")
     print("=" * 50)
 
-    # Ortami sifirla ve baslangic gozlemini al
+    # Reset environment and get initial observation
     observation, info = env.reset(seed=42)
 
-    print(f"Baslangic Gozlemi: {observation}")
+    print(f"Initial Observation: {observation}")
     print(f"Info: {info}")
 
     # ============================================
-    # 5. BIR ADIM ATMA
+    # 5. TAKING A STEP
     # ============================================
     print("\n" + "=" * 50)
-    print("5. BIR ADIM ATMA")
+    print("5. TAKING A STEP")
     print("=" * 50)
 
-    # Saga it (action = 1)
+    # Push right (action = 1)
     action = 1
     observation, reward, terminated, truncated, info = env.step(action)
 
-    print(f"Eylem: {action} (Saga it)")
-    print(f"Yeni Gozlem: {observation}")
-    print(f"Odul: {reward}")
-    print(f"Terminated: {terminated} (Episode dogal olarak bitti mi?)")
-    print(f"Truncated: {truncated} (Episode zaman asimi ile mi bitti?)")
+    print(f"Action: {action} (Push right)")
+    print(f"New Observation: {observation}")
+    print(f"Reward: {reward}")
+    print(f"Terminated: {terminated} (Did the episode end naturally?)")
+    print(f"Truncated: {truncated} (Did the episode end due to time limit?)")
     print(f"Info: {info}")
 
     # ============================================
-    # 6. BIR EPISODE CALISTIRMA
+    # 6. RUNNING AN EPISODE
     # ============================================
     print("\n" + "=" * 50)
-    print("6. BIR EPISODE CALISTIRMA")
+    print("6. RUNNING AN EPISODE")
     print("=" * 50)
 
     observation, info = env.reset(seed=42)
@@ -99,25 +99,25 @@ def main():
 
     done = False
     while not done:
-        # Rastgele eylem sec
+        # Select random action
         action = env.action_space.sample()
 
-        # Adim at
+        # Take step
         observation, reward, terminated, truncated, info = env.step(action)
 
         total_reward += reward
         step_count += 1
 
-        # Episode bitti mi kontrol et
+        # Check if episode is done
         done = terminated or truncated
 
-    print(f"Episode tamamlandi!")
-    print(f"Toplam adim: {step_count}")
-    print(f"Toplam odul: {total_reward}")
+    print(f"Episode completed!")
+    print(f"Total steps: {step_count}")
+    print(f"Total reward: {total_reward}")
 
-    # Ortami kapat
+    # Close environment
     env.close()
-    print("\nOrtam kapatildi.")
+    print("\nEnvironment closed.")
 
 
 if __name__ == "__main__":

@@ -1,8 +1,8 @@
 """
-03 - Farkli Gymnasium Ortamlarini Kesfetme
+03 - Exploring Different Gymnasium Environments
 
-Bu ornekte cesitli Gymnasium ortamlarini inceleyecegiz.
-Her ortamin observation space, action space ve odul yapisini anlayacagiz.
+In this example, we will examine various Gymnasium environments.
+We will understand the observation space, action space, and reward structure of each environment.
 """
 
 import gymnasium as gym
@@ -11,29 +11,29 @@ import numpy as np
 
 def explore_environment(env_name, num_episodes=5, verbose=True):
     """
-    Bir Gymnasium ortamini kesfeder ve bilgilerini yazdirir.
+    Explores a Gymnasium environment and prints its information.
 
     Args:
-        env_name: Ortam adi
-        num_episodes: Calistirilacak episode sayisi
-        verbose: Detayli bilgi yazdirilsin mi
+        env_name: Name of the environment
+        num_episodes: Number of episodes to run
+        verbose: Whether to print detailed information
     """
     try:
         env = gym.make(env_name)
     except Exception as e:
-        print(f"Ortam yuklenemedi: {env_name}")
-        print(f"Hata: {e}")
+        print(f"Failed to load environment: {env_name}")
+        print(f"Error: {e}")
         return None
 
     if verbose:
         print("\n" + "=" * 60)
-        print(f"ORTAM: {env_name}")
+        print(f"ENVIRONMENT: {env_name}")
         print("=" * 60)
 
         # Observation Space
         print(f"\n[Observation Space]")
-        print(f"  Tur: {type(env.observation_space).__name__}")
-        print(f"  Detay: {env.observation_space}")
+        print(f"  Type: {type(env.observation_space).__name__}")
+        print(f"  Details: {env.observation_space}")
 
         if hasattr(env.observation_space, 'shape'):
             print(f"  Shape: {env.observation_space.shape}")
@@ -42,15 +42,15 @@ def explore_environment(env_name, num_episodes=5, verbose=True):
 
         # Action Space
         print(f"\n[Action Space]")
-        print(f"  Tur: {type(env.action_space).__name__}")
-        print(f"  Detay: {env.action_space}")
+        print(f"  Type: {type(env.action_space).__name__}")
+        print(f"  Details: {env.action_space}")
 
         if hasattr(env.action_space, 'n'):
             print(f"  n (discrete): {env.action_space.n}")
         if hasattr(env.action_space, 'shape'):
             print(f"  Shape: {env.action_space.shape}")
 
-    # Episode'lari calistir
+    # Run episodes
     episode_rewards = []
     episode_lengths = []
 
@@ -71,11 +71,11 @@ def explore_environment(env_name, num_episodes=5, verbose=True):
         episode_lengths.append(steps)
 
     if verbose:
-        print(f"\n[{num_episodes} Episode Sonuclari]")
-        print(f"  Ortalama Odul: {np.mean(episode_rewards):.2f}")
-        print(f"  Odul Std: {np.std(episode_rewards):.2f}")
-        print(f"  Ortalama Uzunluk: {np.mean(episode_lengths):.1f}")
-        print(f"  Min/Max Odul: {np.min(episode_rewards):.1f} / {np.max(episode_rewards):.1f}")
+        print(f"\n[{num_episodes} Episode Results]")
+        print(f"  Mean Reward: {np.mean(episode_rewards):.2f}")
+        print(f"  Reward Std: {np.std(episode_rewards):.2f}")
+        print(f"  Mean Length: {np.mean(episode_lengths):.1f}")
+        print(f"  Min/Max Reward: {np.min(episode_rewards):.1f} / {np.max(episode_rewards):.1f}")
 
     env.close()
 
@@ -88,9 +88,9 @@ def explore_environment(env_name, num_episodes=5, verbose=True):
 
 
 def compare_environments():
-    """Birden fazla ortami karsilastirir."""
+    """Compares multiple environments."""
 
-    # Kesfedilecek ortamlar
+    # Environments to explore
     environments = [
         "CartPole-v1",
         "MountainCar-v0",
@@ -99,7 +99,7 @@ def compare_environments():
     ]
 
     print("\n" + "#" * 60)
-    print("# GYMNASIUM ORTAM KARSILASTIRMASI")
+    print("# GYMNASIUM ENVIRONMENT COMPARISON")
     print("#" * 60)
 
     results = []
@@ -109,11 +109,11 @@ def compare_environments():
         if result:
             results.append(result)
 
-    # Ozet tablo
+    # Summary table
     print("\n" + "=" * 60)
-    print("OZET KARSILASTIRMA TABLOSU")
+    print("SUMMARY COMPARISON TABLE")
     print("=" * 60)
-    print(f"{'Ortam':<20} {'Ort. Odul':>12} {'Std':>10} {'Ort. Uzunluk':>12}")
+    print(f"{'Environment':<20} {'Mean Reward':>12} {'Std':>10} {'Mean Length':>12}")
     print("-" * 60)
 
     for r in results:
@@ -121,60 +121,60 @@ def compare_environments():
 
 
 def understand_cartpole():
-    """CartPole ortamini detayli inceler."""
+    """Examines the CartPole environment in detail."""
 
     print("\n" + "#" * 60)
-    print("# CARTPOLE DETAYLI INCELEME")
+    print("# CARTPOLE DETAILED EXAMINATION")
     print("#" * 60)
 
     env = gym.make("CartPole-v1")
 
     print("""
-    CartPole Problemi:
-    ------------------
-    Bir araba uzerinde dikey duran bir cubuk var.
-    Amac: Cubugu dusurmmeden mumkun oldugu kadar uzun sure dengede tutmak.
+    CartPole Problem:
+    -----------------
+    A pole is attached to a cart that moves along a track.
+    Goal: Keep the pole balanced upright for as long as possible.
 
-    Fizik:
-    - Cubuk baslangicta hafif bir aciyla baslar
-    - Yercekimi cubugu dusurmeye calisir
-    - Arabayi saga/sola iterek dengeleyebiliriz
+    Physics:
+    - The pole starts at a slight angle
+    - Gravity tries to pull the pole down
+    - We can balance it by pushing the cart left/right
     """)
 
-    # Bir episode izle
-    print("\nOrnek Episode:")
+    # Watch an episode
+    print("\nSample Episode:")
     print("-" * 40)
 
     obs, _ = env.reset(seed=42)
-    print(f"Baslangic durumu:")
-    print(f"  Araba pozisyonu: {obs[0]:.4f}")
-    print(f"  Araba hizi: {obs[1]:.4f}")
-    print(f"  Cubuk acisi: {obs[2]:.4f} rad ({np.degrees(obs[2]):.2f} derece)")
-    print(f"  Cubuk aci hizi: {obs[3]:.4f}")
+    print(f"Initial state:")
+    print(f"  Cart position: {obs[0]:.4f}")
+    print(f"  Cart velocity: {obs[1]:.4f}")
+    print(f"  Pole angle: {obs[2]:.4f} rad ({np.degrees(obs[2]):.2f} degrees)")
+    print(f"  Pole angular velocity: {obs[3]:.4f}")
 
-    # Birkac adim at
-    print("\nIlk 5 adim:")
+    # Take a few steps
+    print("\nFirst 5 steps:")
     for i in range(5):
         action = env.action_space.sample()
-        action_name = "SAGA" if action == 1 else "SOLA"
+        action_name = "RIGHT" if action == 1 else "LEFT"
         obs, reward, terminated, truncated, _ = env.step(action)
-        print(f"  Adim {i+1}: {action_name:>5} -> Cubuk acisi: {np.degrees(obs[2]):>7.2f} derece, Odul: {reward}")
+        print(f"  Step {i+1}: {action_name:>5} -> Pole angle: {np.degrees(obs[2]):>7.2f} degrees, Reward: {reward}")
 
         if terminated or truncated:
-            print("  Episode bitti!")
+            print("  Episode ended!")
             break
 
     print("""
-    Episode Bitis Kosullari:
-    ------------------------
-    1. Cubuk acisi |12 derece|'yi gecerse -> BASARISIZ
-    2. Araba pozisyonu |2.4|'u gecerse -> BASARISIZ
-    3. 500 adim tamamlanirsa -> BASARILI
+    Episode Termination Conditions:
+    -------------------------------
+    1. Pole angle exceeds |12 degrees| -> FAILURE
+    2. Cart position exceeds |2.4| -> FAILURE
+    3. 500 steps completed -> SUCCESS
 
-    Odul Yapisi:
-    ------------
-    - Her adimda +1 odul
-    - Maksimum toplam odul: 500
+    Reward Structure:
+    -----------------
+    - +1 reward for each step
+    - Maximum total reward: 500
     """)
 
     env.close()
@@ -182,33 +182,33 @@ def understand_cartpole():
 
 def main():
     print("=" * 60)
-    print("GYMNASIUM ORTAMLARI KESFI")
+    print("GYMNASIUM ENVIRONMENT EXPLORATION")
     print("=" * 60)
     print("""
-    Bu script farkli Gymnasium ortamlarini kesfetmenizi saglar.
+    This script helps you explore different Gymnasium environments.
 
-    Secenekler:
-    1. Tekli ortam kesfet
-    2. Ortamlari karsilastir
-    3. CartPole detayli inceleme
+    Options:
+    1. Explore single environment
+    2. Compare environments
+    3. CartPole detailed examination
     """)
 
-    # CartPole detayli inceleme
+    # CartPole detailed examination
     understand_cartpole()
 
-    # Ortamlari karsilastir
+    # Compare environments
     compare_environments()
 
     print("\n" + "=" * 60)
-    print("ALISTIRMA ONERILERI")
+    print("EXERCISE SUGGESTIONS")
     print("=" * 60)
     print("""
-    1. explore_environment() fonksiyonunu farkli ortamlarla cagirin
-    2. Episode sayisini artirarak daha guvenilir istatistikler elde edin
-    3. Kendi gozlemlerinizi not alin:
-       - Hangi ortamlar daha zor?
-       - Odul yapilari nasil farklilik gosteriyor?
-       - Continuous vs Discrete action space farki ne?
+    1. Call explore_environment() with different environments
+    2. Increase the number of episodes for more reliable statistics
+    3. Take your own notes:
+       - Which environments are harder?
+       - How do reward structures differ?
+       - What's the difference between continuous vs discrete action spaces?
     """)
 
 
