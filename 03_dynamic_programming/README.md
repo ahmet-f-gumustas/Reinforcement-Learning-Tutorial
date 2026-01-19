@@ -314,7 +314,7 @@ Standard DP updates all states in each iteration. **Async DP** allows more flexi
 
 ## Code Examples
 
-This folder contains 3 example scripts:
+This folder contains 7 example scripts:
 
 ### 1. `01_policy_evaluation.py`
 Demonstrates iterative policy evaluation on a Grid World.
@@ -333,6 +333,31 @@ Value iteration with detailed visualization.
 - Single update rule combining evaluation and improvement
 - Compares convergence with policy iteration
 - Extracts optimal policy from value function
+
+### 4. `04_gamblers_problem.py`
+Classic Gambler's Problem from Sutton & Barto.
+- Non-grid MDP example
+- Effect of probability on optimal policy
+- Interesting policy structure analysis
+
+### 5. `05_frozen_lake_dp.py`
+Solving Gymnasium's FrozenLake with DP.
+- Extract MDP model from Gymnasium environment
+- Compare deterministic vs stochastic solutions
+- Evaluate learned policies
+
+### 6. `06_async_dp.py`
+Asynchronous Dynamic Programming methods.
+- In-place value iteration
+- Prioritized sweeping
+- Real-time DP (RTDP)
+- Performance comparison
+
+### 7. `07_convergence_visualization.py`
+Convergence analysis and visualization.
+- Value function evolution plots
+- Effect of gamma on convergence
+- Policy stability analysis
 
 ---
 
