@@ -226,7 +226,7 @@ X = Obstacle (cannot enter)
 
 ## Code Examples
 
-This folder contains 3 example scripts:
+This folder contains 6 example scripts:
 
 ### 1. `01_markov_property.py`
 Demonstrates the Markov property with practical examples.
@@ -236,6 +236,15 @@ Implementation of a simple MDP (Grid World) showing all components.
 
 ### 3. `03_bellman_equations.py`
 Numerical computation of Bellman equations and value functions.
+
+### 4. `04_gymnasium_mdps.py`
+Explores real MDP environments from Gymnasium (FrozenLake, Taxi, CliffWalking).
+
+### 5. `05_reward_shaping.py`
+Demonstrates different reward structures: sparse, dense, and potential-based shaping.
+
+### 6. `06_mdp_visualization.py`
+Visualization tools for MDPs: heatmaps, policy arrows, convergence plots.
 
 ---
 
