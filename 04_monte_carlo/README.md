@@ -293,7 +293,7 @@ Total: 10 x 10 x 2 = 200 states
 
 ## Code Examples
 
-This folder contains 4 example scripts:
+This folder contains 7 example scripts:
 
 ### 1. `01_mc_prediction.py`
 Monte Carlo prediction for policy evaluation.
@@ -318,6 +318,24 @@ Off-policy Monte Carlo with importance sampling.
 - Ordinary vs weighted importance sampling
 - Variance comparison
 - Off-policy control
+
+### 5. `05_racetrack.py`
+Classic Racetrack problem from Sutton & Barto.
+- Larger state space (position + velocity)
+- 2D velocity control
+- Sparse rewards and crash handling
+
+### 6. `06_cliff_walking_mc.py`
+CliffWalking environment with MC methods.
+- Risk-sensitive learning (cliff = -100)
+- Safe vs optimal path trade-off
+- Exploration strategy comparison
+
+### 7. `07_mc_visualization.py`
+Visualization tools for MC learning.
+- Value function convergence plots
+- Return distributions
+- Policy evolution animation
 
 ---
 
