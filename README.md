@@ -31,7 +31,7 @@ pip install gymnasium numpy matplotlib torch
 | 1 | Introduction to RL and Basic Concepts | [01_introduction](01_introduction/) | Completed |
 | 2 | Markov Decision Processes (MDP) | [02_mdp](02_mdp/) | Completed |
 | 3 | Dynamic Programming | [03_dynamic_programming](03_dynamic_programming/) | Completed |
-| 4 | Monte Carlo Methods | [04_monte_carlo](04_monte_carlo/) | Pending |
+| 4 | Monte Carlo Methods | [04_monte_carlo](04_monte_carlo/) | Completed |
 | 5 | Temporal Difference (TD) Learning | [05_temporal_difference](05_temporal_difference/) | Pending |
 | 6 | Q-Learning and SARSA | [06_q_learning_sarsa](06_q_learning_sarsa/) | Pending |
 | 7 | Function Approximation | [07_function_approximation](07_function_approximation/) | Pending |

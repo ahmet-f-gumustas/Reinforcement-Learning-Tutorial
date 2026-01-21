@@ -31,7 +31,7 @@ pip install gymnasium numpy matplotlib torch
 | 1 | RL'ye Giris ve Temel Kavramlar | [01_introduction](01_introduction/) | Tamamlandi |
 | 2 | Markov Karar Surecleri (MDP) | [02_mdp](02_mdp/) | Tamamlandi |
 | 3 | Dynamic Programming | [03_dynamic_programming](03_dynamic_programming/) | Tamamlandi |
-| 4 | Monte Carlo Yontemleri | [04_monte_carlo](04_monte_carlo/) | Bekliyor |
+| 4 | Monte Carlo Yontemleri | [04_monte_carlo](04_monte_carlo/) | Tamamlandi |
 | 5 | Temporal Difference (TD) Learning | [05_temporal_difference](05_temporal_difference/) | Bekliyor |
 | 6 | Q-Learning ve SARSA | [06_q_learning_sarsa](06_q_learning_sarsa/) | Bekliyor |
 | 7 | Function Approximation | [07_function_approximation](07_function_approximation/) | Bekliyor |
