@@ -1,0 +1,424 @@
+# Week 4: Monte Carlo Methods
+
+This week we learn Monte Carlo (MC) methods for reinforcement learning - learning from complete episodes without requiring a model of the environment.
+
+## Contents
+
+1. [Introduction to Monte Carlo Methods](#introduction-to-monte-carlo-methods)
+2. [MC Prediction](#mc-prediction)
+3. [MC Control](#mc-control)
+4. [On-Policy vs Off-Policy](#on-policy-vs-off-policy)
+5. [Importance Sampling](#importance-sampling)
+6. [Code Examples](#code-examples)
+7. [Exercises](#exercises)
+
+---
+
+## Introduction to Monte Carlo Methods
+
+**Monte Carlo methods** learn directly from episodes of experience - complete sequences of states, actions, and rewards.
+
+### Key Characteristics
+
+1. **Model-Free**: No need for transition probabilities P(s'|s,a)
+2. **Episode-Based**: Learn from complete episodes only
+3. **Sample-Based**: Use sample returns instead of expected returns
+
+### Comparison with DP
+
+| Aspect | Dynamic Programming | Monte Carlo |
+|--------|-------------------|-------------|
+| Model Required | Yes (P, R needed) | No |
+| Bootstrapping | Yes (uses V estimates) | No (uses actual returns) |
+| Episode Required | No | Yes (must terminate) |
+| Update Timing | Every step | End of episode |
+
+### When to Use MC
+
+- Environment model is unknown or hard to compute
+- Episodes are relatively short
+- Can simulate/interact with environment
+
+---
+
+## MC Prediction
+
+**MC Prediction** estimates V_pi(s) or Q_pi(s,a) for a given policy pi.
+
+### The Idea
+
+Value of a state = Expected return starting from that state
+
+```
+V(s) = E[G_t | S_t = s]
+```
+
+MC approach: Average the actual returns observed after visiting state s.
+
+### First-Visit MC vs Every-Visit MC
+
+**First-Visit MC:**
+- Only use the FIRST visit to each state in an episode
+- Unbiased estimator
+
+**Every-Visit MC:**
+- Use EVERY visit to each state
+- Also converges, lower variance with more samples
+
+### First-Visit MC Prediction Algorithm
+
+```
+Initialize:
+    V(s) arbitrarily for all s
+    Returns(s) = empty list for all s
+
+Repeat forever (for each episode):
+    Generate episode: S0, A0, R1, S1, A1, R2, ..., ST
+    G = 0
+    For t = T-1, T-2, ..., 0:
+        G = gamma * G + R_{t+1}
+        If S_t not in {S0, S1, ..., S_{t-1}}:  # First visit check
+            Append G to Returns(S_t)
+            V(S_t) = average(Returns(S_t))
+```
+
+### Incremental Mean Update
+
+Instead of storing all returns:
+
+```
+V(S_t) = V(S_t) + alpha * (G - V(S_t))
+```
+
+where alpha = 1/N(S_t) for exact average, or constant alpha for non-stationary.
+
+---
+
+## MC Control
+
+**MC Control** finds the optimal policy using Monte Carlo methods.
+
+### The Challenge
+
+- Need to estimate Q(s,a) not just V(s)
+- Why? Because without a model, we can't do:
+  ```
+  pi(s) = argmax_a sum_s' P(s'|s,a) * [R + gamma*V(s')]
+  ```
+  We don't know P!
+
+### MC Control with Q-values
+
+With Q-values, policy improvement is model-free:
+```
+pi(s) = argmax_a Q(s,a)
+```
+
+### Exploring Starts (MC ES)
+
+Problem: If policy is deterministic, many (s,a) pairs never visited.
+
+Solution 1: **Exploring Starts**
+- Start each episode from a random (state, action) pair
+- Ensures all pairs visited infinitely often
+
+```
+Initialize Q(s,a) arbitrarily
+Initialize pi(s) = argmax_a Q(s,a)
+
+Repeat forever:
+    Choose S0, A0 randomly (exploring starts)
+    Generate episode following pi
+    For each (s,a) in episode:
+        G = return following first visit to (s,a)
+        Q(s,a) = average of returns
+    For each s in episode:
+        pi(s) = argmax_a Q(s,a)
+```
+
+### Epsilon-Greedy Policies
+
+Solution 2: **Epsilon-Greedy** - always have some exploration
+
+```
+pi(a|s) = 1 - epsilon + epsilon/|A|  if a = argmax Q(s,a)
+        = epsilon/|A|                 otherwise
+```
+
+- With probability 1-epsilon: take greedy action
+- With probability epsilon: take random action
+
+### On-Policy MC Control
+
+```
+Initialize Q(s,a) arbitrarily
+Initialize epsilon-greedy policy pi
+
+Repeat forever:
+    Generate episode following pi
+    For each (s,a) in episode:
+        G = return following first visit to (s,a)
+        Q(s,a) = Q(s,a) + alpha * (G - Q(s,a))
+    For each s in episode:
+        A* = argmax_a Q(s,a)
+        For all a:
+            pi(a|s) = 1-eps+eps/|A| if a=A*, else eps/|A|
+```
+
+---
+
+## On-Policy vs Off-Policy
+
+### On-Policy Methods
+
+- **Learn about** the policy being used to make decisions
+- Policy being evaluated = Policy being improved
+- Example: Epsilon-greedy MC Control
+
+### Off-Policy Methods
+
+- **Learn about** one policy (target) while following another (behavior)
+- Target policy pi: The policy we want to learn
+- Behavior policy b: The policy generating data
+
+### Why Off-Policy?
+
+1. **Learn from expert demonstrations**
+2. **Reuse old data** from different policies
+3. **Learn optimal policy while exploring**
+
+### Challenge of Off-Policy
+
+Data generated by b, but we want to estimate V_pi.
+
+The returns we observe are from b, not pi!
+
+Solution: **Importance Sampling**
+
+---
+
+## Importance Sampling
+
+**Importance Sampling** allows us to estimate expectations under one distribution using samples from another.
+
+### The Math
+
+We want: E_pi[G]
+We have: Samples from b
+
+Importance Sampling Ratio:
+```
+rho_{t:T-1} = product_{k=t}^{T-1} [pi(A_k|S_k) / b(A_k|S_k)]
+```
+
+This ratio corrects for the difference between policies.
+
+### Ordinary Importance Sampling
+
+```
+V(s) = sum(rho * G) / n
+```
+
+- Unbiased
+- Can have high variance (rho can be very large)
+
+### Weighted Importance Sampling
+
+```
+V(s) = sum(rho * G) / sum(rho)
+```
+
+- Biased (but bias -> 0 as n -> infinity)
+- Much lower variance
+- Generally preferred in practice
+
+### Off-Policy MC Prediction
+
+```
+Initialize Q(s,a), C(s,a) = 0
+
+Repeat forever:
+    Generate episode using behavior policy b
+    G = 0
+    W = 1
+    For t = T-1, T-2, ..., 0:
+        G = gamma * G + R_{t+1}
+        C(S_t, A_t) = C(S_t, A_t) + W
+        Q(S_t, A_t) = Q(S_t, A_t) + W/C * (G - Q(S_t, A_t))
+        W = W * pi(A_t|S_t) / b(A_t|S_t)
+        If W = 0: break
+```
+
+---
+
+## Blackjack Example
+
+Blackjack is a classic MC example from Sutton & Barto.
+
+### The Game
+
+- Goal: Get cards summing close to 21 without going over
+- Player actions: Hit (get card) or Stick (stop)
+- Dealer: Follows fixed policy (hit on <17, stick on >=17)
+- Rewards: +1 win, -1 lose, 0 draw
+
+### State Space
+
+- Player sum: 12-21 (below 12 always hit)
+- Dealer showing: 1-10
+- Usable ace: Yes/No
+
+Total: 10 x 10 x 2 = 200 states
+
+### Why MC is Perfect Here
+
+- Episodes are short
+- No model of card distribution needed
+- Natural termination
+
+---
+
+## Comparison: DP vs MC
+
+| Feature | DP | MC |
+|---------|----|----|
+| Model | Required | Not required |
+| Bootstrapping | Yes | No |
+| Handles continuing tasks | Yes | No (episodes only) |
+| Variance | Lower | Higher |
+| Bias | Can have | Unbiased (first-visit) |
+| Computation | Per state | Per episode |
+
+---
+
+## Code Examples
+
+This folder contains 7 example scripts:
+
+### 1. `01_mc_prediction.py`
+Monte Carlo prediction for policy evaluation.
+- First-visit and every-visit MC
+- Incremental mean updates
+- Convergence visualization
+
+### 2. `02_mc_control.py`
+Monte Carlo control for finding optimal policies.
+- Exploring starts
+- Epsilon-greedy on-policy control
+- GLIE (Greedy in the Limit with Infinite Exploration)
+
+### 3. `03_blackjack.py`
+Solving Blackjack with Monte Carlo methods.
+- Gymnasium Blackjack environment
+- Policy visualization
+- Optimal strategy discovery
+
+### 4. `04_importance_sampling.py`
+Off-policy Monte Carlo with importance sampling.
+- Ordinary vs weighted importance sampling
+- Variance comparison
+- Off-policy control
+
+### 5. `05_racetrack.py`
+Classic Racetrack problem from Sutton & Barto.
+- Larger state space (position + velocity)
+- 2D velocity control
+- Sparse rewards and crash handling
+
+### 6. `06_cliff_walking_mc.py`
+CliffWalking environment with MC methods.
+- Risk-sensitive learning (cliff = -100)
+- Safe vs optimal path trade-off
+- Exploration strategy comparison
+
+### 7. `07_mc_visualization.py`
+Visualization tools for MC learning.
+- Value function convergence plots
+- Return distributions
+- Policy evolution animation
+
+---
+
+## Exercises
+
+### Exercise 1: First-Visit vs Every-Visit
+
+Implement both first-visit and every-visit MC prediction.
+Compare their convergence on a simple Grid World.
+Which converges faster? Which has lower variance?
+
+### Exercise 2: Epsilon Decay
+
+Implement MC control with decaying epsilon:
+```
+epsilon_t = epsilon_0 / t
+```
+Compare learning curves with constant epsilon.
+
+### Exercise 3: Blackjack Analysis
+
+Using the Blackjack environment:
+1. Evaluate the "stick on 20 or 21" policy
+2. Find the optimal policy using MC control
+3. Visualize the optimal policy as a heatmap
+
+### Exercise 4: Off-Policy Evaluation
+
+Generate data using a random policy.
+Use importance sampling to evaluate a deterministic policy.
+Compare ordinary vs weighted importance sampling variance.
+
+### Exercise 5: Racing Track
+
+Implement the Racing Track problem from Sutton & Barto:
+- Grid-based racing track
+- Velocity control (+1, 0, -1 for each dimension)
+- Goal: Reach finish line as fast as possible
+
+---
+
+## Key Equations
+
+### Return
+```
+G_t = R_{t+1} + gamma * R_{t+2} + gamma^2 * R_{t+3} + ...
+```
+
+### MC Value Estimate
+```
+V(s) = (1/N) * sum_{i=1}^{N} G_i(s)
+```
+
+### Incremental Update
+```
+V(s) = V(s) + alpha * (G - V(s))
+```
+
+### Importance Sampling Ratio
+```
+rho = product [pi(a|s) / b(a|s)]
+```
+
+### Weighted IS Estimate
+```
+V(s) = sum(rho * G) / sum(rho)
+```
+
+---
+
+## Next Week
+
+In Week 5, we will cover **Temporal Difference Learning**:
+- TD(0) prediction
+- SARSA and Q-Learning
+- TD vs MC vs DP comparison
+
+TD methods combine ideas from both DP (bootstrapping) and MC (learning from experience).
+
+---
+
+## Resources
+
+- [Sutton & Barto Chapter 5: Monte Carlo Methods](http://incompleteideas.net/book/RLbook2020.pdf)
+- [David Silver Lecture 4: Model-Free Prediction](https://www.youtube.com/watch?v=PnHCvfgC_ZA)
+- [David Silver Lecture 5: Model-Free Control](https://www.youtube.com/watch?v=0g4j2k_Ggc4)
