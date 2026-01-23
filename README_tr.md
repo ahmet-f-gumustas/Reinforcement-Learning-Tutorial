@@ -32,7 +32,7 @@ pip install gymnasium numpy matplotlib torch
 | 2 | Markov Karar Surecleri (MDP) | [02_mdp](02_mdp/) | Tamamlandi |
 | 3 | Dynamic Programming | [03_dynamic_programming](03_dynamic_programming/) | Tamamlandi |
 | 4 | Monte Carlo Yontemleri | [04_monte_carlo](04_monte_carlo/) | Tamamlandi |
-| 5 | Temporal Difference (TD) Learning | [05_temporal_difference](05_temporal_difference/) | Bekliyor |
+| 5 | Temporal Difference (TD) Learning | [05_temporal_difference](05_temporal_difference/) | Tamamlandi |
 | 6 | Q-Learning ve SARSA | [06_q_learning_sarsa](06_q_learning_sarsa/) | Bekliyor |
 | 7 | Function Approximation | [07_function_approximation](07_function_approximation/) | Bekliyor |
 | 8 | Deep Q-Network (DQN) | [08_dqn](08_dqn/) | Bekliyor |
