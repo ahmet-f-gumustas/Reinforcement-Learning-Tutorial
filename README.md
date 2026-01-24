@@ -33,7 +33,7 @@ pip install gymnasium numpy matplotlib torch
 | 3 | Dynamic Programming | [03_dynamic_programming](03_dynamic_programming/) | Completed |
 | 4 | Monte Carlo Methods | [04_monte_carlo](04_monte_carlo/) | Completed |
 | 5 | Temporal Difference (TD) Learning | [05_temporal_difference](05_temporal_difference/) | Completed |
-| 6 | Q-Learning and SARSA | [06_q_learning_sarsa](06_q_learning_sarsa/) | Pending |
+| 6 | Q-Learning and SARSA | [06_td_control](06_td_control/) | Completed |
 | 7 | Function Approximation | [07_function_approximation](07_function_approximation/) | Pending |
 | 8 | Deep Q-Network (DQN) | [08_dqn](08_dqn/) | Pending |
 | 9 | Policy Gradient Methods | [09_policy_gradient](09_policy_gradient/) | Pending |
