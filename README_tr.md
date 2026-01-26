@@ -34,7 +34,7 @@ pip install gymnasium numpy matplotlib torch
 | 4 | Monte Carlo Yontemleri | [04_monte_carlo](04_monte_carlo/) | Tamamlandi |
 | 5 | Temporal Difference (TD) Learning | [05_temporal_difference](05_temporal_difference/) | Tamamlandi |
 | 6 | Q-Learning ve SARSA | [06_td_control](06_td_control/) | Tamamlandi |
-| 7 | Function Approximation | [07_function_approximation](07_function_approximation/) | Bekliyor |
+| 7 | Function Approximation | [07_function_approximation](07_function_approximation/) | Tamamlandi |
 | 8 | Deep Q-Network (DQN) | [08_dqn](08_dqn/) | Bekliyor |
 | 9 | Policy Gradient Yontemleri | [09_policy_gradient](09_policy_gradient/) | Bekliyor |
 | 10 | Actor-Critic Yontemleri | [10_actor_critic](10_actor_critic/) | Bekliyor |
