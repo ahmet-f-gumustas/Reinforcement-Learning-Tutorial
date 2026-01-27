@@ -117,10 +117,44 @@ pip install gymnasium numpy matplotlib torch
 
 ## Resources
 
+### Books & Courses
 - [Sutton & Barto - Reinforcement Learning: An Introduction](http://incompleteideas.net/book/the-book-2nd.html)
 - [David Silver RL Course](https://www.davidsilver.uk/teaching/)
 - [OpenAI Spinning Up](https://spinningup.openai.com/)
 - [Gymnasium Documentation](https://gymnasium.farama.org/)
+
+### Awesome Lists & Tutorials
+- [awesome-reinforcement-learning](https://github.com/awesomelistsio/awesome-reinforcement-learning) - Comprehensive list of RL frameworks, libraries, tools, and tutorials
+- [awesome-deep-rl](https://github.com/kengz/awesome-deep-rl) - Curated list of Deep Reinforcement Learning resources
+- [awesome-rl](https://github.com/aikorea/awesome-rl) - Reinforcement learning resources curated
+- [Curated-Reinforcement-Learning-Resources](https://github.com/azminewasi/Curated-Reinforcement-Learning-Resources) - Courses and tutorials from various providers
+- [reinforcement-learning-resources](https://github.com/datascienceid/reinforcement-learning-resources) - Video lectures, books, and libraries
+- [dennybritz/reinforcement-learning](https://github.com/dennybritz/reinforcement-learning) - RL implementations with Python, OpenAI Gym, TensorFlow (Sutton's Book & David Silver's course)
+- [awesome-machine-learning-robotics](https://github.com/Phylliade/awesome-machine-learning-robotics) - Machine Learning for Robotics resources
+
+### Frameworks & Libraries
+- [OpenAI Gym](https://gym.openai.com/) - Simulation environments for training agents
+- [OpenAI Baselines](https://github.com/openai/baselines) - Expert implementations of deep RL algorithms
+- [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3) - Reliable implementations of RL algorithms in PyTorch
+- [Ray RLlib](https://docs.ray.io/en/latest/rllib/index.html) - Scalable Reinforcement Learning library
+- [Keras-RL](https://github.com/matthiasplappert/keras-rl) - Keras-compatible framework (DQN, SARSA, DDPG)
+- [DeepMind Acme](https://github.com/deepmind/acme) - Research framework for RL by DeepMind
+- [DeepMind DQN](https://github.com/deepmind/dqn) - Official DQN implementation from Nature paper
+
+### Key Papers - Deep Reinforcement Learning
+- [Human-level control through deep reinforcement learning](https://www.nature.com/nature/journal/v518/n7540/full/nature14236.html) - Mnih et Al. (DQN)
+- [Continuous control with Deep Reinforcement Learning](https://arxiv.org/abs/1509.02971) - Lillicrap et Al. (DDPG)
+- [Prioritized Experience Replay](https://arxiv.org/abs/1511.05952) - Schaul et Al.
+- [Reinforcement learning with unsupervised auxiliary tasks](https://deepmind.com/blog/reinforcement-learning-unsupervised-auxiliary-tasks/) - Jaderberg et Al.
+- [Emergence of Locomotion Behaviours in Rich Environments](https://arxiv.org/abs/1707.02286) - Heess et Al.
+- [Deep RL that matters](https://arxiv.org/abs/1709.06560) - Henderson et Al. (Reproducibility)
+
+### Key Papers - Policy Gradient & Theory
+- [Simple statistical gradient-following algorithms for connectionist RL](http://www-anw.cs.umass.edu/~barto/courses/cs687/williams92simple.pdf) - Williams (REINFORCE)
+- [Policy Gradient Methods for RL with Function Approximation](https://papers.nips.cc/paper/1713-policy-gradient-methods-for-reinforcement-learning-with-function-approximation.pdf) - Sutton et Al.
+- [Deterministic Policy Gradient Algorithms](http://proceedings.mlr.press/v32/silver14.pdf) - Silver et Al.
+- [Reinforcement learning of motor skills with policy gradients](http://www.kyb.mpg.de/fileadmin/user_upload/files/publications/attachments/Neural-Netw-2008-21-682_4867%5b0%5d.pdf) - Peters and Schaal
+- [Guided Policy Search](https://graphics.stanford.edu/projects/gpspaper/gps_full.pdf) - Levine et Al.
 
 ## License
 
