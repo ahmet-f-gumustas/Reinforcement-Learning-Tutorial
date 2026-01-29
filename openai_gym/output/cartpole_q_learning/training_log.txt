@@ -1,0 +1,17 @@
+CartPole Q-Learning Training Log
+==================================================
+
+Hiperparametreler:
+  - n_bins: 20
+  - learning_rate: 0.1
+  - discount_factor: 0.99
+  - epsilon_decay: 0.995
+  - epsilon_min: 0.01
+
+Eğitim Sonuçları:
+  - Toplam episode: 1000
+  - Son 100 episode ortalaması: 30.01
+  - Maksimum reward: 82.00
+
+Test Sonuçları:
+  - Ortalama reward: 28.90

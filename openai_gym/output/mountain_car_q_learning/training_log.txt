@@ -1,0 +1,17 @@
+MountainCar Q-Learning Training Log
+==================================================
+
+Hiperparametreler:
+  - n_bins: 40
+  - learning_rate: 0.2
+  - discount_factor: 0.99
+  - epsilon_decay: 0.999
+  - epsilon_min: 0.01
+
+Eğitim Sonuçları:
+  - Toplam episode: 5000
+  - Son 100 episode ortalaması: -41.25
+  - Maksimum reward: -4.00
+
+Test Sonuçları:
+  - Başarı oranı: 9/10

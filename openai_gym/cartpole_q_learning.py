@@ -8,6 +8,13 @@ Sürekli durum uzayı, ayrık kutulara (bins) bölünerek Q-tablosu oluşturulur
 import gymnasium as gym
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+from pathlib import Path
+
+# Output klasörü
+SCRIPT_NAME = Path(__file__).stem
+OUTPUT_DIR = Path(__file__).parent / "output" / SCRIPT_NAME
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 class CartPoleQLearning:
@@ -146,7 +153,8 @@ class CartPoleQLearning:
         ax2.grid(True, alpha=0.3)
 
         plt.tight_layout()
-        plt.savefig('training_progress.png', dpi=150)
+        plt.savefig(OUTPUT_DIR / 'training_progress.png', dpi=150)
+        print(f"Grafik kaydedildi: {OUTPUT_DIR / 'training_progress.png'}")
         plt.show()
 
 
@@ -154,6 +162,10 @@ def main():
     print("=" * 60)
     print("CartPole Q-Learning Example")
     print("=" * 60)
+    print(f"Output klasörü: {OUTPUT_DIR}")
+
+    # Log dosyası
+    log_file = OUTPUT_DIR / "training_log.txt"
 
     # Ajanı oluştur
     agent = CartPoleQLearning(
@@ -177,11 +189,40 @@ def main():
     print("\n" + "=" * 60)
     print("Test aşaması (render=False)")
     print("=" * 60)
-    agent.test(n_episodes=10, render=False)
+    test_results = agent.test(n_episodes=10, render=False)
 
-    # Görsel test (isteğe bağlı)
-    # print("\nGörsel test için render=True yapabilirsiniz")
-    # agent.test(n_episodes=3, render=True)
+    # Sonuçları kaydet
+    print("\n" + "=" * 60)
+    print("Sonuçlar kaydediliyor...")
+    print("=" * 60)
+
+    # Q-tablosunu kaydet
+    q_table_path = OUTPUT_DIR / "q_table.npy"
+    np.save(q_table_path, agent.q_table)
+    print(f"Q-tablosu kaydedildi: {q_table_path}")
+
+    # Rewards kaydet
+    rewards_path = OUTPUT_DIR / "rewards.npy"
+    np.save(rewards_path, np.array(rewards))
+    print(f"Rewards kaydedildi: {rewards_path}")
+
+    # Log dosyası
+    with open(log_file, 'w') as f:
+        f.write("CartPole Q-Learning Training Log\n")
+        f.write("=" * 50 + "\n\n")
+        f.write(f"Hiperparametreler:\n")
+        f.write(f"  - n_bins: {agent.n_bins}\n")
+        f.write(f"  - learning_rate: {agent.lr}\n")
+        f.write(f"  - discount_factor: {agent.gamma}\n")
+        f.write(f"  - epsilon_decay: {agent.epsilon_decay}\n")
+        f.write(f"  - epsilon_min: {agent.epsilon_min}\n\n")
+        f.write(f"Eğitim Sonuçları:\n")
+        f.write(f"  - Toplam episode: {len(rewards)}\n")
+        f.write(f"  - Son 100 episode ortalaması: {np.mean(rewards[-100:]):.2f}\n")
+        f.write(f"  - Maksimum reward: {max(rewards):.2f}\n\n")
+        f.write(f"Test Sonuçları:\n")
+        f.write(f"  - Ortalama reward: {np.mean(test_results):.2f}\n")
+    print(f"Log kaydedildi: {log_file}")
 
 
 if __name__ == "__main__":
