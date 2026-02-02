@@ -30,6 +30,7 @@ from pathlib import Path
 import copy
 import time
 import sys
+import argparse
 
 # =============================================================================
 # CONFIGURATION
@@ -953,18 +954,134 @@ def print_menu():
     print("=" * 60)
 
 
+def parse_args():
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(
+        description="Bipedal Walker - Walking Robot Simulation",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python bipedal_walker_game.py --watch          # Watch trained AI walk
+  python bipedal_walker_game.py --watch -n 10    # Watch 10 episodes
+  python bipedal_walker_game.py --train -n 500   # Train for 500 episodes
+  python bipedal_walker_game.py --human          # Play with keyboard
+  python bipedal_walker_game.py                  # Show interactive menu
+        """
+    )
+
+    # Mode selection
+    mode_group = parser.add_mutually_exclusive_group()
+    mode_group.add_argument(
+        "--watch", "-w",
+        action="store_true",
+        help="Watch the trained AI walk (loads saved model)"
+    )
+    mode_group.add_argument(
+        "--train", "-t",
+        action="store_true",
+        help="Train the AI from scratch or continue training"
+    )
+    mode_group.add_argument(
+        "--human", "-H",
+        action="store_true",
+        help="Play in human mode with keyboard"
+    )
+    mode_group.add_argument(
+        "--demo", "-d",
+        action="store_true",
+        help="Quick demo: short training + AI show"
+    )
+
+    # Options
+    parser.add_argument(
+        "-n", "--episodes",
+        type=int,
+        default=5,
+        help="Number of episodes (default: 5 for watch, 1000 for train)"
+    )
+    parser.add_argument(
+        "--model",
+        type=str,
+        default=None,
+        help="Path to model file (default: auto-detect in output folder)"
+    )
+
+    return parser.parse_args()
+
+
 def main():
     """Main entry point."""
+    args = parse_args()
+
+    # Header
     print("\n" + "=" * 60)
     print(Colors.colorize("BIPEDAL WALKER - Walking Robot Simulation", Colors.BOLD + Colors.CYAN))
     print("=" * 60)
     print(f"  Output    : {Colors.colorize(str(OUTPUT_DIR), Colors.DIM)}")
     print(f"  Device    : {Colors.colorize(str(device), Colors.GREEN)}")
+
+    # Check if model exists
+    model_path = Path(args.model) if args.model else OUTPUT_DIR / "td3_model.pt"
+    model_exists = model_path.exists()
+
+    if model_exists:
+        print(f"  Model     : {Colors.colorize('FOUND', Colors.GREEN)} ({model_path.name})")
+    else:
+        print(f"  Model     : {Colors.colorize('NOT FOUND', Colors.YELLOW)} (need to train first)")
+
     print()
+
+    # Create game
+    game = BipedalWalkerGame()
+
+    # Override model path if specified
+    if args.model:
+        game.model_path = Path(args.model)
+
+    # =========================================================================
+    # DIRECT MODE (command line arguments)
+    # =========================================================================
+
+    if args.watch:
+        # Watch mode - load and run trained model
+        if not model_exists:
+            print(Colors.colorize("ERROR: No trained model found!", Colors.RED))
+            print(f"Train first with: python {Path(__file__).name} --train")
+            return
+
+        print(Colors.colorize("  Mode: WATCH (AI Playing)", Colors.GREEN + Colors.BOLD))
+        print("=" * 60)
+        game.run_ai_mode(episodes=args.episodes)
+        return
+
+    elif args.train:
+        # Training mode
+        episodes = args.episodes if args.episodes != 5 else 1000  # Default 1000 for training
+        print(Colors.colorize(f"  Mode: TRAINING ({episodes} episodes)", Colors.YELLOW + Colors.BOLD))
+        print("=" * 60)
+        game.run_training_mode(episodes=episodes)
+        return
+
+    elif args.human:
+        # Human mode
+        print(Colors.colorize("  Mode: HUMAN (Keyboard Control)", Colors.CYAN + Colors.BOLD))
+        print("=" * 60)
+        game.run_human_mode()
+        return
+
+    elif args.demo:
+        # Demo mode
+        print(Colors.colorize("  Mode: DEMO (Quick Train + Watch)", Colors.HEADER + Colors.BOLD))
+        print("=" * 60)
+        game.demo_mode()
+        return
+
+    # =========================================================================
+    # INTERACTIVE MENU (no arguments)
+    # =========================================================================
+
     print("  This robot must learn to walk using 4 motors.")
     print("  It uses TD3 algorithm for continuous control.")
-
-    game = BipedalWalkerGame()
 
     while True:
         print_menu()
