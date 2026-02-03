@@ -115,6 +115,14 @@ pip install gymnasium numpy matplotlib torch
 - Inverse RL
 - Final project: Solve your own environment
 
+## Practical Examples
+
+| Folder | Description | Algorithms |
+|--------|-------------|------------|
+| [openai_gym](openai_gym/) | Interactive game simulations with OpenAI Gymnasium | DQN, TD3, Q-Learning |
+
+The `openai_gym` folder contains ready-to-run examples with training visualization, CLI arguments, and detailed comments. See [openai_gym/README.md](openai_gym/README.md) for details.
+
 ## Resources
 
 ### Books & Courses

@@ -115,6 +115,14 @@ pip install gymnasium numpy matplotlib torch
 - Inverse RL
 - Final proje: Kendi ortaminizi cozun
 
+## Pratik Ornekler
+
+| Klasor | Aciklama | Algoritmalar |
+|--------|----------|--------------|
+| [openai_gym](openai_gym/) | OpenAI Gymnasium ile interaktif oyun simulasyonlari | DQN, TD3, Q-Learning |
+
+`openai_gym` klasoru, egitim gorsellestirmesi, CLI argumanlari ve detayli yorumlar iceren calistirmaya hazir ornekler icerir. Detaylar icin [openai_gym/README.md](openai_gym/README.md) dosyasina bakin.
+
 ## Kaynaklar
 
 ### Kitaplar ve Kurslar
