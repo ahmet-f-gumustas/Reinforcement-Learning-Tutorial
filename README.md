@@ -35,7 +35,7 @@ pip install gymnasium numpy matplotlib torch
 | 5 | Temporal Difference (TD) Learning | [05_temporal_difference](05_temporal_difference/) | Completed |
 | 6 | Q-Learning and SARSA | [06_td_control](06_td_control/) | Completed |
 | 7 | Function Approximation | [07_function_approximation](07_function_approximation/) | Completed |
-| 8 | Deep Q-Network (DQN) | [08_dqn](08_dqn/) | Pending |
+| 8 | Deep Q-Network (DQN) | [08_dqn](08_dqn/) | Completed |
 | 9 | Policy Gradient Methods | [09_policy_gradient](09_policy_gradient/) | Pending |
 | 10 | Actor-Critic Methods | [10_actor_critic](10_actor_critic/) | Pending |
 | 11 | Proximal Policy Optimization (PPO) | [11_ppo](11_ppo/) | Pending |
