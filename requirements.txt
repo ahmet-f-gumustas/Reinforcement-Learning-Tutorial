@@ -1,0 +1,26 @@
+# Reinforcement Learning Tutorial - Requirements
+# pip install -r requirements.txt
+
+# Temel bilimsel hesaplama
+numpy==2.2.5
+matplotlib==3.10.8
+
+# Gymnasium (RL ortamları)
+gymnasium==1.1.1
+
+# Gymnasium ek ortamları
+pygame==2.6.1                  # CartPole, LunarLander vb. render
+box2d-py==2.3.5                # BipedalWalker, LunarLander
+mujoco==3.4.0                  # MuJoCo fizik simülasyonu
+ale-py==0.11.2                 # Atari ortamları (opsiyonel)
+
+# Derin öğrenme
+torch==2.10.0
+torchvision==0.25.0
+
+# Stable-Baselines3 (PPO, SAC, TD3 vb.)
+stable_baselines3==2.7.1
+tensorboard==2.20.0            # SB3 eğitim logları
+
+# Yardımcı
+tqdm==4.67.3
