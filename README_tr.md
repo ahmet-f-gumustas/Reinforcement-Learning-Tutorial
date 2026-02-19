@@ -37,7 +37,7 @@ pip install gymnasium numpy matplotlib torch
 | 7 | Function Approximation | [07_function_approximation](07_function_approximation/) | Tamamlandi |
 | 8 | Deep Q-Network (DQN) | [08_dqn](08_dqn/) | Tamamlandi |
 | 9 | Policy Gradient Yontemleri | [09_policy_gradient](09_policy_gradient/) | Tamamlandi |
-| 10 | Actor-Critic Yontemleri | [10_actor_critic](10_actor_critic/) | Bekliyor |
+| 10 | Actor-Critic Yontemleri | [10_actor_critic](10_actor_critic/) | Tamamlandi |
 | 11 | Proximal Policy Optimization (PPO) | [11_ppo](11_ppo/) | Bekliyor |
 | 12 | Ileri Duzey Konular ve Proje | [12_advanced](12_advanced/) | Bekliyor |
 
