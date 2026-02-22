@@ -38,7 +38,7 @@ pip install gymnasium numpy matplotlib torch
 | 8 | Deep Q-Network (DQN) | [08_dqn](08_dqn/) | Completed |
 | 9 | Policy Gradient Methods | [09_policy_gradient](09_policy_gradient/) | Completed |
 | 10 | Actor-Critic Methods | [10_actor_critic](10_actor_critic/) | Completed |
-| 11 | Proximal Policy Optimization (PPO) | [11_ppo](11_ppo/) | Pending |
+| 11 | Proximal Policy Optimization (PPO) | [11_ppo](11_ppo/) | Completed |
 | 12 | Advanced Topics and Project | [12_advanced](12_advanced/) | Pending |
 
 ## Topic Details
