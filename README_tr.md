@@ -39,7 +39,8 @@ pip install gymnasium numpy matplotlib torch
 | 9 | Policy Gradient Yontemleri | [09_policy_gradient](09_policy_gradient/) | Tamamlandi |
 | 10 | Actor-Critic Yontemleri | [10_actor_critic](10_actor_critic/) | Tamamlandi |
 | 11 | Proximal Policy Optimization (PPO) | [11_ppo](11_ppo/) | Tamamlandi |
-| 12 | Ileri Duzey Konular ve Proje | [12_advanced](12_advanced/) | Bekliyor |
+| 12 | Ileri Duzey Konular ve Proje | [12_advanced](12_advanced/) | Tamamlandi |
+| 13 | Multi-Agent Quadruped Simulasyonu (MuJoCo) | [13_project_mujoco_unitree_quadruped_simulation](13_project_mujoco_unitree_quadruped_simulation/) | Tamamlandi |
 
 ## Konu Detaylari
 
@@ -114,6 +115,13 @@ pip install gymnasium numpy matplotlib torch
 - Model-based RL
 - Inverse RL
 - Final proje: Kendi ortaminizi cozun
+
+### Hafta 13: Multi-Agent Quadruped Simulasyonu (MuJoCo)
+- Unitree Go2 ilhamli dort bacakli robot (12 DOF)
+- Tek-agent PPO baseline
+- MAPPO bacak bazinda kontrol (CTDE)
+- Hiyerarsik manager-worker kontrol
+- Coklu robot formation kontrolu ve iletisim
 
 ## Pratik Ornekler
 
