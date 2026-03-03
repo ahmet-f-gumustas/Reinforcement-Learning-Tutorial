@@ -39,7 +39,8 @@ pip install gymnasium numpy matplotlib torch
 | 9 | Policy Gradient Methods | [09_policy_gradient](09_policy_gradient/) | Completed |
 | 10 | Actor-Critic Methods | [10_actor_critic](10_actor_critic/) | Completed |
 | 11 | Proximal Policy Optimization (PPO) | [11_ppo](11_ppo/) | Completed |
-| 12 | Advanced Topics and Project | [12_advanced](12_advanced/) | Pending |
+| 12 | Advanced Topics and Project | [12_advanced](12_advanced/) | Completed |
+| 13 | Multi-Agent Quadruped Simulation (MuJoCo) | [13_project_mujoco_unitree_quadruped_simulation](13_project_mujoco_unitree_quadruped_simulation/) | Completed |
 
 ## Topic Details
 
@@ -114,6 +115,13 @@ pip install gymnasium numpy matplotlib torch
 - Model-based RL
 - Inverse RL
 - Final project: Solve your own environment
+
+### Week 13: Multi-Agent Quadruped Simulation (MuJoCo)
+- Unitree Go2-inspired quadruped robot (12 DOF)
+- Single-agent PPO baseline
+- MAPPO per-leg control (CTDE)
+- Hierarchical manager-worker control
+- Multi-robot formation with communication
 
 ## Practical Examples
 
